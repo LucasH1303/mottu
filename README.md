@@ -24,15 +24,31 @@ Criando a VM no terminal do portal da Azure:
 
 az group create --name grupo-mottu--location brazilsouth
 
-Acessando a VM (maquina virtual):
-
 az vm create --resource-group  grupo-mottu --name vm-mottu --image Ubuntu2204 --admin-username admlnx --admin-password ********* --generate-ssh-keys
 
 az vm open-port --port 8080 --resource-group grupo-mottu --name vm-mottu --priority 1001
 
+Acessando a nossa VM (Maquina Virtual): 
+
 ssh @admlnx@ip
 
 Instalar o Docker: 
+
+sudo apt install -y ca-certificates curl gnupg lsb-release
+
+sudo mkdir -m 0755 -p /etc/apt/keyrings
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+sudo docker --version
+
+Clonando o repositorio do GitHub:
 
 git clone [link do repositorio]
 
