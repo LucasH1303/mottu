@@ -22,7 +22,7 @@ Tecnologias utilizadas:
 
 Criando a VM no terminal do portal da Azure:
 
-az group create --name grupo-mottu--location brazilsouth
+az group create --name grupo-mottu --location brazilsouth
 
 az vm create --resource-group  grupo-mottu --name vm-mottu --image Ubuntu2204 --admin-username admlnx --admin-password ********* --generate-ssh-keys
 
