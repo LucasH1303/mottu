@@ -15,7 +15,7 @@ Tecnologias utilizadas:
 
 - Java 21
 - Spring Boot
-- Oracle SQL (Banco de Dados em memória)
+- H2 (Banco de Dados em memória)
 - Spring Data JPA
 - Spring Cache
 - OpenAPI/Swagger
