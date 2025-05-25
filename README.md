@@ -28,9 +28,13 @@ az vm create --resource-group  grupo-mottu --name vm-mottu --image Ubuntu2204 --
 
 az vm open-port --port 8080 --resource-group grupo-mottu --name vm-mottu --priority 1001
 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 Acessando a nossa VM (Maquina Virtual): 
 
 ssh @admlnx@ip
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Instalar o Docker: 
 
@@ -48,11 +52,17 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin d
 
 sudo docker --version
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 Clonando o repositorio do GitHub:
 
 git clone [link do repositorio]
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 cd mottu
+
+sudo usermod -aG docker $USER
 
 docker build -t app-mottu .
 
