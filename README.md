@@ -24,7 +24,7 @@ Criando a VM no terminal do portal da Azure:
 
 az group create --name grupo-mottu --location brazilsouth
 
-az vm create --resource-group  grupo-mottu --name vm-mottu --image Ubuntu2204 --admin-username admlnx --admin-password ********* --generate-ssh-keys
+az vm create --resource-group  grupo-mottu --name vm-mottu --image Ubuntu2204 --admin-username admlnx --admin-password Fiap@2tdsvms --generate-ssh-keys
 
 az vm open-port --port 8080 --resource-group grupo-mottu --name vm-mottu --priority 1001
 
