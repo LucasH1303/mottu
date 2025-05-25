@@ -76,6 +76,6 @@ cd mottu
 
 docker build -t app-mottu .
 
-docker run -d --name mottu-p 8080:8080 app-mottu
+docker run -d --name mottu -p 8080:8080 app-mottu
 
 
