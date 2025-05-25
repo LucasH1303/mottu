@@ -20,3 +20,26 @@ Tecnologias utilizadas:
 - Spring Cache
 - OpenAPI/Swagger
 
+Criando a VM no terminal do portal da Azure:
+
+az group create --name grupo-mottu--location brazilsouth
+
+Acessando a VM (maquina virtual):
+
+az vm create --resource-group  grupo-mottu --name vm-mottu --image Ubuntu2204 --admin-username admlnx --admin-password ********* --generate-ssh-keys
+
+az vm open-port --port 8080 --resource-group grupo-mottu --name vm-mottu --priority 1001
+
+ssh @admlnx@ip
+
+Instalar o Docker: 
+
+git clone [link do repositorio]
+
+cd mottu
+
+docker build -t app-mottu .
+
+docker run -d --name mottu-p 8080:8080 app-mottu
+
+
