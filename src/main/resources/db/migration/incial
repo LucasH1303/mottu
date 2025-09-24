@@ -1,0 +1,5 @@
+INSERT INTO patio(nome, localizacao) VALUES ('Patio Central','Av. Paulista');
+INSERT INTO patio(nome, localizacao) VALUES ('Patio Norte','Zona Norte');
+
+INSERT INTO moto(placa, modelo, patio_id) VALUES ('ABC-1234','Yamaha XTZ', 1);
+INSERT INTO moto(placa, modelo, patio_id) VALUES ('DEF-5678','Honda CG', 1);

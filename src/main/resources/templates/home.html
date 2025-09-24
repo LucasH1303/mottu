@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - Mottu</title>
+</head>
+<body>
+  <div th:replace="fragmentos :: header"></div>
+  <div th:replace="fragmentos :: menu"></div>
+
+  <h2>Bem-vindo, <span th:text="${username}">Usuário</span>!</h2>
+  <p>Use o menu para gerenciar motos e pátios.</p>
+
+  <div th:replace="fragmentos :: footer"></div>
+</body>
+</html>

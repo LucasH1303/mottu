@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Motos - Mottu</title>
+</head>
+<body>
+  <div th:replace="fragmentos :: header"></div>
+  <div th:replace="fragmentos :: menu"></div>
+
+  <h2>Lista de Motos</h2>
+  <a th:href="@{/motos/novo}">➕ Nova Moto</a><br/><br/>
+
+  <table border="1" cellpadding="6">
+    <tr><th>ID</th><th>Placa</th><th>Modelo</th><th>Patio</th><th>Ações</th></tr>
+    <tr th:each="m : ${motos}">
+      <td th:text="${m.id}"></td>
+      <td th:text="${m.placa}"></td>
+      <td th:text="${m.modelo}"></td>
+      <td th:text="${m.patio != null ? m.patio.nome : '-'}"></td>
+      <td>
+        <a th:href="@{|/motos/editar/${m.id}|}">Editar</a> |
+        <a th:href="@{|/motos/excluir/${m.id}|}">Excluir</a>
+      </td>
+    </tr>
+  </table>
+
+  <div th:replace="fragmentos :: footer"></div>
+</body>
+</html>

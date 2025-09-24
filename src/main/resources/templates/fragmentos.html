@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Fragments</title>
+</head>
+<body>
+  <div th:fragment="header">
+    <h1>🅼 Mottu - Sistema</h1>
+    <hr/>
+  </div>
+
+  <div th:fragment="menu">
+    <a th:href="@{/home}">Home</a> |
+    <a th:href="@{/motos}">Motos</a> |
+    <a th:href="@{/patios}">Pátios</a> |
+    <a th:href="@{/logout}">Sair</a>
+    <hr/>
+  </div>
+
+  <div th:fragment="footer">
+    <hr/>
+    <p>© 2025 Mottu</p>
+  </div>
+</body>
+</html>

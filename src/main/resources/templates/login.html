@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Mottu</title>
+</head>
+<body>
+  <h2>Login</h2>
+  <form th:action="@{/login}" method="post">
+    <label>Usuário: <input type="text" name="username" required/></label><br/><br/>
+    <label>Senha: <input type="password" name="password" required/></label><br/><br/>
+    <button type="submit">Entrar</button>
+  </form>
+  <div th:if="${param.error}">
+    <p style="color:red">Credenciais inválidas.</p>
+  </div>
+  <div th:if="${param.logout}">
+    <p style="color:green">Deslogado com sucesso.</p>
+  </div>
+</body>
+</html>
