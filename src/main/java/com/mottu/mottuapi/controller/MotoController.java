@@ -3,14 +3,7 @@ package com.mottu.mottuapi.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.mottu.mottuapi.dto.MotoDTO;
 import com.mottu.mottuapi.entity.Moto;
@@ -19,18 +12,13 @@ import com.mottu.mottuapi.service.MotoService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/motos")
+@RequestMapping("/api/motos")
 public class MotoController {
 
     private final MotoService motoService;
 
     public MotoController(MotoService motoService) {
         this.motoService = motoService;
-    }
-
-    @GetMapping
-    public List<Moto> listar() {
-        return motoService.listarTodos();
     }
 
     @GetMapping("/{id}")
@@ -60,5 +48,10 @@ public class MotoController {
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
         motoService.deletar(id);
+    }
+
+    @GetMapping("/listar")
+    public List<Moto> listarTodos() {
+        return motoService.listarTodos();
     }
 }

@@ -1,27 +1,115 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Form Moto</title>
+    <meta charset="UTF-8">
+    <title th:text="${moto.id != null} ? 'Editar Moto' : 'Nova Moto'">Moto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root { --green: #00c853; --bg: #0b0b0b; --card: #111111; --muted: #c8c8c8; }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(1200px 1200px at 10% -10%, rgba(0,200,83,0.12), transparent 60%),
+                        radial-gradient(1000px 800px at 110% 110%, rgba(0,200,83,0.08), transparent 60%),
+                        var(--bg);
+            color: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+            padding: 24px;
+        }
+        .container { max-width: 720px; margin: 0 auto; }
+        .card {
+            background: var(--card);
+            border: 1px solid rgba(0,200,83,0.35);
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+            padding: 22px;
+        }
+        h2 {
+            margin: 0 0 14px 0;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--green);
+            text-shadow: 0 0 14px rgba(0,200,83,0.35);
+        }
+        form { margin-top: 6px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .grid .full { grid-column: 1 / -1; }
+        label { display: block; margin-bottom: 8px; font-size: 13px; color: #e6e6e6; }
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            color: #f5f5f5;
+            outline: none;
+            transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+            appearance: none;
+        }
+        input::placeholder { color: #9b9b9b; }
+        input:focus, select:focus {
+            border-color: rgba(0,200,83,0.7);
+            box-shadow: 0 0 0 3px rgba(0,200,83,0.18);
+            background: #171717;
+        }
+        .actions { margin-top: 10px; display: flex; gap: 10px; }
+        button, a.button {
+            display: inline-block;
+            padding: 12px 16px;
+            border: 0;
+            border-radius: 10px;
+            background: var(--green);
+            color: #0b0b0b;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: transform 80ms ease, filter 160ms ease, box-shadow 160ms ease;
+            box-shadow: 0 10px 18px rgba(0,200,83,0.25);
+        }
+        button:hover, a.button:hover { filter: brightness(0.95); }
+        button:active, a.button:active { transform: translateY(1px); }
+        a.button.secondary { background: transparent; color: #eafdea; border: 1px solid rgba(0,200,83,0.35); }
+    </style>
 </head>
 <body>
-  <div th:replace="fragmentos :: header"></div>
-  <div th:replace="fragmentos :: menu"></div>
+    <div th:replace="fragmentos :: header"></div>
+    <div th:replace="fragmentos :: menu"></div>
 
-  <h2 th:text="${moto.id != null} ? 'Editar Moto' : 'Nova Moto'"></h2>
+    <div class="container">
+        <div class="card">
+            <h2 th:text="${moto.id != null} ? 'Editar Moto' : 'Nova Moto'">Nova Moto</h2>
+            <form th:action="@{/motos/salvar}" th:object="${moto}" method="post">
+                <input type="hidden" th:field="*{id}" />
+                <div class="grid">
+                    <div>
+                        <label for="placa">Placa</label>
+                        <input id="placa" type="text" th:field="*{placa}" placeholder="AAA-1B23" required />
+                    </div>
+                    <div>
+                        <label for="modelo">Modelo</label>
+                        <input id="modelo" type="text" th:field="*{modelo}" placeholder="Modelo da moto" required />
+                    </div>
+                    <div>
+                        <label for="fabricante">Fabricante</label>
+                        <input id="fabricante" type="text" th:field="*{fabricante}" placeholder="Fabricante" required />
+                    </div>
+                    <div>
+                        <label for="patio">Pátio</label>
+                        <select id="patio" th:field="*{patio}" required>
+							<option th:each="p : ${patios}" th:value="${p.id}" th:text="${p.nome}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button type="submit">Salvar</button>
+                    <a class="button secondary" th:href="@{/motos}">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
 
-  <form th:action="@{/motos/salvar}" th:object="${moto}" method="post">
-    <input type="hidden" th:field="*{id}"/>
-    <label>Placa: <input type="text" th:field="*{placa}" required/></label><br/><br/>
-    <label>Modelo: <input type="text" th:field="*{modelo}"/></label><br/><br/>
-    <label>Pátio:
-      <select th:field="*{patio}" >
-        <option th:each="p : ${patios}" th:value="${p}" th:text="${p.nome}"></option>
-      </select>
-    </label><br/><br/>
-    <button type="submit">Salvar</button>
-  </form>
-
-  <div th:replace="fragmentos :: footer"></div>
+    <div th:replace="fragmentos :: footer"></div>
 </body>
 </html>

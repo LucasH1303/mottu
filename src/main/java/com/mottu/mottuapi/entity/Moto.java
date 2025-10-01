@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-public class Moto {
+public class Moto { 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,11 @@ public class Moto {
     @NotBlank(message = "O fabricante é obrigatório")
     private String fabricante;
 
+    @ManyToOne
+    @JoinColumn(name = "patio_id") // coluna no banco
+    private Patio patio; // relacionamento com o pátio
 
+    // GETTERS E SETTERS
     public Long getId() {
         return id;
     }
@@ -53,4 +57,13 @@ public class Moto {
     public void setFabricante(String fabricante) {
         this.fabricante = fabricante;
     }
+
+    public Patio getPatio() {
+        return patio;
+    }
+
+    public void setPatio(Patio patio) {
+        this.patio = patio;
+    }
 }
+

@@ -1,0 +1,8 @@
+CREATE TABLE MOTO (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    placa VARCHAR(50) NOT NULL UNIQUE,
+    modelo VARCHAR(255),
+    fabricante VARCHAR(255),
+    patio_id BIGINT,
+    CONSTRAINT fk_moto_patio FOREIGN KEY (patio_id) REFERENCES PATIO(id)
+);

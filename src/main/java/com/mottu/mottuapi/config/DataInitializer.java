@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.mottu.mottuapi.entity.usuario;
+import com.mottu.mottuapi.entity.Usuario;
 import com.mottu.mottuapi.repository.UsuarioRepository;
 
 @Component
@@ -20,11 +20,30 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (usuarioRepository.count() == 0) {
-            usuario admin = new usuario(null, "admin", passwordEncoder.encode("admin123"), "ROLE_ADMIN");
-            usuario user = new usuario(null, "user", passwordEncoder.encode("user123"), "ROLE_USER");
+            Usuario admin = new Usuario(
+                null,
+                "admin", 
+                passwordEncoder.encode("admin123"), 
+                "ROLE_ADMIN",
+                "Administrador",
+                "admin@mottu.com",
+                "11999999999"
+            );
+
+            Usuario user = new Usuario(
+                null,
+                "user", 
+                passwordEncoder.encode("user123"), 
+                "ROLE_USER",
+                "Usuário",
+                "user@mottu.com",
+                "11988888888"
+            );
+
             usuarioRepository.save(admin);
             usuarioRepository.save(user);
-            System.out.println("Criados usuários iniciais: admin/admin123 e user/user123");
+
+            System.out.println("Usuários iniciais criados: admin/admin123 e user/user123");
         }
     }
 }

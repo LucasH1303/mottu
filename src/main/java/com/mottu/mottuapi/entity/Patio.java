@@ -1,7 +1,9 @@
 package com.mottu.mottuapi.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Patio {
@@ -10,13 +12,10 @@ public class Patio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O nome do pátio é obrigatório")
     private String nome;
-
-    @NotBlank(message = "O endereço do pátio é obrigatório")
     private String endereco;
+    private String localizacao; 
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -39,5 +38,13 @@ public class Patio {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public String getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
     }
 }
