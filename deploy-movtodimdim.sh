@@ -11,9 +11,15 @@
 # eastus2
 # westus
 # westus2
+<<<<<<< HEAD
 export RESOURCE_GROUP_NAME="rg-testesprint4"
 export WEBAPP_NAME="testesprint4-fiap"
 export APP_SERVICE_PLAN="planTesteSprint4"
+=======
+export RESOURCE_GROUP_NAME="rg-Decepticons_CP6"
+export WEBAPP_NAME="teste_Decepticons-fiap"
+export APP_SERVICE_PLAN="planTesteCP6"
+>>>>>>> 62136484d45dc9975030045872c90dcef52a13b6
 # Altere a sua região conforme orientação do Professor
 export LOCATION="brazilsouth"
 export RUNTIME="JAVA:17-java17"
