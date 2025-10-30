@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ordens de Serviço</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { --green: #00c853; --bg: #0b0b0b; --card: #111111; }
+    body { margin:0; background:var(--bg); color:#fff; font-family:system-ui,Segoe UI,Roboto,Arial; padding:24px; }
+    .container { max-width:1100px; margin:0 auto; }
+    .card { background:var(--card); padding:18px; border-radius:12px; border:1px solid rgba(0,200,83,0.12); }
+    .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:10px; flex-wrap: wrap; }
+    table { width:100%; border-collapse:collapse; background:#0f0f0f; }
+    th, td { padding:10px 8px; text-align:left; border-bottom:1px solid #222; vertical-align: middle; }
+    th { color:#dfffe1; }
+    .button { padding:8px 12px; border-radius:8px; background:var(--green); color:#071; text-decoration:none; font-weight:700; }
+    .btn-small { padding:6px 8px; border-radius:6px; text-decoration:none; margin-right:6px; font-weight:600; font-size:13px; }
+    .btn-edit { background:#ffc107; color:#111; }
+    .btn-concluir { background:#00c853; color:#071; }
+    .btn-delete { background:#e53935; color:#fff; }
+    .btn-home { background:#444; color:#fff; font-weight:700; }
+    .muted { color:#bdbdbd; font-size:13px; }
+  </style>
+</head>
+<body>
+  <div th:replace="fragmentos :: header"></div>
+  <div th:replace="fragmentos :: menu"></div>
+
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <h2>Ordens de Serviço</h2>
+        <div style="display:flex; gap:8px;">
+          <a class="button" th:href="@{/os/novo}">➕ Nova OS</a>
+          <a class="button btn-home" th:href="@{/}">🏠 Voltar ao Menu</a>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Moto (placa)</th>
+            <th>Problema</th>
+            <th>Descrição</th>
+            <th>Status</th>
+            <th>Data Abertura</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="o : ${osList}">
+            <td th:text="${o.id}">1</td>
+            <td th:text="${o.moto != null ? o.moto.placa : '-'}">AAA-1B23</td>
+            <td th:text="${o.tipoProblema}">Troca de farol</td>
+            <td th:text="${o.tipoProblema == 'OUTRO' ? o.descricaoLivre : (o.descricaoLivre != null && o.descricaoLivre != '' ? o.descricaoLivre : '-') }">detalhe</td>
+            <td th:text="${o.status}">PENDENTE</td>
+            <td th:text="${#temporals.format(o.dataAbertura, 'dd/MM/yyyy HH:mm')}">30/09/2025 12:00</td>
+            <td>
+              <a th:href="@{|/os/editar/${o.id}|}" class="btn-small btn-edit" sec:authorize="hasRole('ADMIN')">Editar</a>
+              <a th:href="@{|/os/concluir/${o.id}|}" class="btn-small btn-concluir" 
+                 th:if="${o.status != 'CONCLUÍDA'}" sec:authorize="hasRole('ADMIN')">Concluir</a>
+              <a th:href="@{|/os/excluir/${o.id}|}" class="btn-small btn-delete" sec:authorize="hasRole('ADMIN')">Excluir</a>
+
+              
+            </td>
+          </tr>
+
+          <tr th:if="${osList.empty}">
+            <td colspan="7" style="text-align:center;color:#ccc;padding:18px;">Nenhuma ordem de serviço cadastrada.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div th:replace="fragmentos :: footer"></div>
+</body>
+</html>

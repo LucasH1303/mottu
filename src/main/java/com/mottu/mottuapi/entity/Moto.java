@@ -22,9 +22,8 @@ public class Moto {
     private String fabricante;
 
     @ManyToOne
-    @JoinColumn(name = "patio_id") // coluna no banco
-    private Patio patio; // relacionamento com o pátio
-
+    @JoinColumn(name = "patio_id") 
+    private Patio patio; 
     // GETTERS E SETTERS
     public Long getId() {
         return id;

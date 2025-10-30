@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nova Ordem de Serviço</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { --green: #00c853; --bg: #0b0b0b; --card: #111111; --muted: #c8c8c8; }
+    body { margin:0; min-height:100vh; background:var(--bg); color:#fff; font-family:system-ui,Segoe UI,Roboto,Arial; padding:24px; }
+    .container { max-width:900px; margin:0 auto; }
+    .card { background:var(--card); border-radius:12px; padding:20px; border:1px solid rgba(0,200,83,0.15); }
+    .grid { display:grid; gap:12px; grid-template-columns: 1fr 1fr; }
+    label { display:block; margin-bottom:6px; color:#ddd; font-size:14px; }
+    input, select, textarea { width:100%; padding:10px; border-radius:8px; background:#121212; border:1px solid #2a2a2a; color:#fff; }
+    textarea { min-height:100px; }
+    .actions { margin-top:12px; display:flex; gap:8px; }
+    .button { padding:10px 14px; border-radius:8px; background:var(--green); color:#081; text-decoration:none; font-weight:700; border:none; cursor:pointer; }
+    .button.secondary { background:transparent; border:1px solid #2a2a2a; color:#ddd; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h2>Nova Ordem de Serviço</h2>
+
+      <form th:action="@{/os/salvar}" th:object="${ordem}" method="post">
+        <div class="grid">
+          <div>
+            <label for="moto">Moto</label>
+            <select id="moto" th:field="*{moto.id}" required>
+              <option value="" disabled selected>-- selecione uma moto --</option>
+              <option th:each="m : ${motos}" th:value="${m.id}" th:text="${m.placa + ' — ' + (m.modelo != null ? m.modelo : '')}"></option>
+            </select>
+          </div>
+
+          <div>
+            <label for="tipoProblema">Problema (pré-definido)</label>
+            <select id="tipoProblema" th:field="*{tipoProblema}" required>
+              <option value="" disabled selected>-- selecione um problema --</option>
+              <option th:each="p : ${problemas}" th:value="${p}" th:text="${p}"></option>
+            </select>
+          </div>
+
+          <div style="grid-column: 1 / -1;">
+            <label for="descricaoLivre">Descrição livre (opcional)</label>
+            <textarea id="descricaoLivre" th:field="*{descricaoLivre}" placeholder="Descreva detalhes adicionais, ou descreva um problema que não esteja na lista pré-definida"></textarea>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="button" type="submit">Salvar Ordem</button>
+          <a class="button secondary" th:href="@{/os}">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const tipo = document.getElementById('tipoProblema');
+      const descricao = document.getElementById('descricaoLivre');
+
+      function toggle() {
+        if (!tipo) return;
+        if (tipo.value === 'OUTRO') {
+          descricao.style.display = 'block';
+          descricao.required = true;
+        } else {
+          descricao.style.display = 'block';
+          descricao.required = false;
+        }
+      }
+
+      if (tipo) {
+        tipo.addEventListener('change', toggle);
+        window.addEventListener('load', toggle);
+      }
+    })();
+  </script>
+</body>
+</html>

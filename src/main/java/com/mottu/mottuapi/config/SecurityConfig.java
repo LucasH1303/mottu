@@ -1,17 +1,21 @@
 package com.mottu.mottuapi.config;
 
-import org.springframework.context.annotation.*;
+import com.mottu.mottuapi.service.UsuarioDetailsService;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.mottu.mottuapi.service.UsuarioDetailsService;
-
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Bean
@@ -28,14 +32,21 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, DaoAuthenticationProvider authProvider) throws Exception {
         http.authenticationProvider(authProvider);
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/css/**", "/js/**", "/images/**", "/h2-console/**", "/login").permitAll()
-                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/login").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/motos/**", "/patios/**", "/home").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/h2-console/**", "/login", "/usuarios/cadastrar", "/usuarios/salvar").permitAll()
+
+                .requestMatchers("/os/editar/**", "/os/excluir/**", "/os/concluir/**", "/os/atualizar/**").hasRole("ADMIN")
+
+                .requestMatchers("/motos/**", "/patios/**", "/os/**", "/home").hasAnyRole("ADMIN", "USER")
+
                 .anyRequest().authenticated()
         );
 
@@ -51,14 +62,13 @@ public class SecurityConfig {
                 .permitAll()
         );
 
+        http.exceptionHandling(ex -> ex
+                .accessDeniedPage("/acesso-negado")
+        );
+
         http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**", "/api/**"));
         http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
 
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
     }
 }
