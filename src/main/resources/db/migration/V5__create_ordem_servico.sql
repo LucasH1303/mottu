@@ -3,8 +3,11 @@ CREATE TABLE ordem_servico (
     tipo_problema VARCHAR(255),
     descricao_livre VARCHAR(1000),
     status VARCHAR(50) NOT NULL,
-    data_abertura TIMESTAMP NOT NULL,
-    data_conclusao TIMESTAMP,
+    data_abertura TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_conclusao TIMESTAMP NULL,
     moto_id BIGINT,
-    CONSTRAINT fk_ordem_moto FOREIGN KEY (moto_id) REFERENCES moto(id)
+    CONSTRAINT fk_ordem_moto FOREIGN KEY (moto_id)
+        REFERENCES moto(id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
 );

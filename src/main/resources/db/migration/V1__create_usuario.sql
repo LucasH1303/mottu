@@ -7,3 +7,5 @@ CREATE TABLE usuario (
     email VARCHAR(100) NOT NULL,
     telefone VARCHAR(20)
 );
+
+
