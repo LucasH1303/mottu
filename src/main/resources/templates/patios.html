@@ -25,18 +25,65 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.45);
             padding: 20px;
         }
-        .header-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
-        h2 { margin:0; font-size:22px; font-weight:700; color: var(--green); text-shadow:0 0 14px rgba(0,200,83,0.35); }
-        a.button { display:inline-block; padding:10px 14px; background:var(--green); color:#0b0b0b; text-decoration:none; font-weight:700; border-radius:10px; box-shadow:0 8px 16px rgba(0,200,83,0.25); transition: transform 80ms ease, filter 160ms ease; }
+        .header-row { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            flex-wrap: wrap; 
+            gap: 12px; 
+            margin-bottom: 14px; 
+        }
+        h2 { 
+            margin: 0; 
+            font-size: 22px; 
+            font-weight: 700; 
+            color: var(--green); 
+            text-shadow: 0 0 14px rgba(0,200,83,0.35); 
+        }
+        a.button { 
+            display: inline-block; 
+            padding: 10px 14px; 
+            background: var(--green); 
+            color: #0b0b0b; 
+            text-decoration: none; 
+            font-weight: 700; 
+            border-radius: 10px; 
+            box-shadow: 0 8px 16px rgba(0,200,83,0.25); 
+            transition: transform 80ms ease, filter 160ms ease; 
+        }
         a.button:hover { filter: brightness(0.95); }
         a.button:active { transform: translateY(1px); }
-        .table-wrap { overflow-x:auto; border-radius:10px; border:1px solid #262626; }
-        table { width:100%; border-collapse:collapse; background:#0f0f0f; }
-        th, td { padding:12px 10px; text-align:left; }
-        th { background: linear-gradient(180deg, rgba(0,200,83,0.18), rgba(0,200,83,0.04)); color:#e9ffe6; font-weight:700; border-bottom:1px solid rgba(0,200,83,0.35); }
+        .btn-home {
+            background: #444;
+            color: #fff;
+        }
+        .table-wrap { 
+            overflow-x: auto; 
+            border-radius: 10px; 
+            border: 1px solid #262626; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            background: #0f0f0f; 
+        }
+        th, td { 
+            padding: 12px 10px; 
+            text-align: left; 
+        }
+        th { 
+            background: linear-gradient(180deg, rgba(0,200,83,0.18), rgba(0,200,83,0.04)); 
+            color: #e9ffe6; 
+            font-weight: 700; 
+            border-bottom: 1px solid rgba(0,200,83,0.35); 
+        }
         tr:not(:last-child) td { border-bottom: 1px solid #1f1f1f; }
-        td { color:#e8e8e8; }
-        .actions a { color: var(--green); text-decoration:none; font-weight:600; }
+        td { color: #e8e8e8; }
+        .actions a { 
+            color: var(--green); 
+            text-decoration: none; 
+            font-weight: 600; 
+        }
         .actions a:hover { text-decoration: underline; }
     </style>
 </head>
@@ -45,7 +92,10 @@
         <div class="card">
             <div class="header-row">
                 <h2>🏢 Lista de Pátios</h2>
-				<a class="button" th:href="@{/patio/novo}">➕ Novo Pátio</a>
+                <div style="display: flex; gap: 8px;">
+                    <a class="button" th:href="@{/patio/novo}">➕ Novo Pátio</a>
+                    <a class="button btn-home" th:href="@{/}">🏠 Voltar ao Menu</a>
+                </div>
             </div>
             <div class="table-wrap">
                 <table>
@@ -64,7 +114,13 @@
                             <td th:text="${p.localizacao}"></td>
                             <td class="actions">
                                 <a th:href="@{'/patio/editar/' + ${p.id}}">✏️ Editar</a> |
-                                <a th:href="@{'/patio/deletar/' + ${p.id}}" onclick="return confirm('Tem certeza que deseja excluir este pátio?')">🗑️ Excluir</a>
+                                <a th:href="@{'/patio/deletar/' + ${p.id}}" 
+                                   onclick="return confirm('Tem certeza que deseja excluir este pátio?')">🗑️ Excluir</a>
+                            </td>
+                        </tr>
+                        <tr th:if="${patios.empty}">
+                            <td colspan="4" style="text-align:center; color:#999; padding:16px;">
+                                Nenhum pátio cadastrado.
                             </td>
                         </tr>
                     </tbody>

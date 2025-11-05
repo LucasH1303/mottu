@@ -58,12 +58,11 @@
             <td th:text="${o.status}">PENDENTE</td>
             <td th:text="${#temporals.format(o.dataAbertura, 'dd/MM/yyyy HH:mm')}">30/09/2025 12:00</td>
             <td>
-              <a th:href="@{|/os/editar/${o.id}|}" class="btn-small btn-edit" sec:authorize="hasRole('ADMIN')">Editar</a>
+              <a th:href="@{|/os/editar/${o.id}|}" class="btn-small btn-edit">Editar</a>
+              <a th:href="@{|/os/excluir/${o.id}|}" class="btn-small btn-delete">Excluir</a>
+
               <a th:href="@{|/os/concluir/${o.id}|}" class="btn-small btn-concluir" 
                  th:if="${o.status != 'CONCLUÍDA'}" sec:authorize="hasRole('ADMIN')">Concluir</a>
-              <a th:href="@{|/os/excluir/${o.id}|}" class="btn-small btn-delete" sec:authorize="hasRole('ADMIN')">Excluir</a>
-
-              
             </td>
           </tr>
 

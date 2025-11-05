@@ -1,7 +1,6 @@
 package com.mottu.mottuapi.controller;
 
 import com.mottu.mottuapi.entity.OrdemServico;
-import com.mottu.mottuapi.entity.Moto;
 import com.mottu.mottuapi.repository.OrdemServicoRepository;
 import com.mottu.mottuapi.service.MotoService;
 import org.springframework.security.core.Authentication;
@@ -36,18 +35,7 @@ public class OrdemServicoController {
         OrdemServico os = new OrdemServico();
         model.addAttribute("ordem", os);
         model.addAttribute("motos", motoService.listarTodos());
-        model.addAttribute("problemas", List.of(
-                "Troca de farol",
-                "Troca de bateria",
-                "Troca das pastilhas de freio",
-                "Troca de óleo",
-                "Vazamento no motor",
-                "Problema no sistema elétrico",
-                "Pneus gastos",
-                "Corrente frouxa",
-                "Barulho anormal no motor",
-                "OUTRO"
-        ));
+        model.addAttribute("problemas", problemasList());
         return "os-form";
     }
 
@@ -67,7 +55,35 @@ public class OrdemServicoController {
                 .orElseThrow(() -> new IllegalArgumentException("OS não encontrada: " + id));
         model.addAttribute("ordem", os);
         model.addAttribute("motos", motoService.listarTodos());
-        model.addAttribute("problemas", List.of(
+        model.addAttribute("problemas", problemasList()); 
+        return "os-form";
+    }
+
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        OrdemServico os = ordemRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("OS não encontrada: " + id));
+        ordemRepo.delete(os);
+        return "redirect:/os";
+    }
+
+    @GetMapping("/concluir/{id}")
+    public String concluir(@PathVariable Long id, Authentication auth) {
+        boolean isAdmin = auth != null && auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        if (isAdmin) {
+            OrdemServico os = ordemRepo.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("OS não encontrada: " + id));
+            os.setStatus("CONCLUÍDA");
+            os.setDataConclusao(LocalDateTime.now());
+            ordemRepo.save(os);
+        }
+        return "redirect:/os";
+    }
+
+    private List<String> problemasList() {
+        return List.of(
                 "Troca de farol",
                 "Troca de bateria",
                 "Troca das pastilhas de freio",
@@ -78,29 +94,6 @@ public class OrdemServicoController {
                 "Corrente frouxa",
                 "Barulho anormal no motor",
                 "OUTRO"
-        ));
-        return "os-form";
-    }
-
-    @GetMapping("/excluir/{id}")
-    public String excluir(@PathVariable Long id, Authentication auth) {
-        if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            OrdemServico os = ordemRepo.findById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("OS não encontrada: " + id));
-            ordemRepo.delete(os);
-        }
-        return "redirect:/os";
-    }
-
-    @GetMapping("/concluir/{id}")
-    public String concluir(@PathVariable Long id, Authentication auth) {
-        if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            OrdemServico os = ordemRepo.findById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("OS não encontrada: " + id));
-            os.setStatus("CONCLUÍDA");
-            os.setDataConclusao(LocalDateTime.now());
-            ordemRepo.save(os);
-        }
-        return "redirect:/os";
+        );
     }
 }
