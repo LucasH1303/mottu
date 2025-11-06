@@ -1,7 +1,12 @@
-CREATE TABLE usuario (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    senha VARCHAR(255) NOT NULL,
-    telefone VARCHAR(20)
-);
+-- Drop tables for a clean baseline (SQL Server)
+IF OBJECT_ID('dbo.ordem_servico', 'U') IS NOT NULL
+    DROP TABLE dbo.ordem_servico;
+
+IF OBJECT_ID('dbo.moto', 'U') IS NOT NULL
+    DROP TABLE dbo.moto;
+
+IF OBJECT_ID('dbo.patio', 'U') IS NOT NULL
+    DROP TABLE dbo.patio;
+
+IF OBJECT_ID('dbo.usuario', 'U') IS NOT NULL
+    DROP TABLE dbo.usuario;
